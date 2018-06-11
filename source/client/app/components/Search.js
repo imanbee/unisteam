@@ -85,7 +85,8 @@ class Search extends React.PureComponent {
   state = {
     gamer: null,
     error: null,
-    loading: false
+    loading: false,
+    searchString: ''
   }
 
   fetchUserData = debounce((e) => {
@@ -108,6 +109,7 @@ class Search extends React.PureComponent {
   onUsernameChanged = (e) => {
     e.persist();
     this.fetchUserData(e);
+    this.setState({searchString: e.target.value})
   };
 
   addGamer = () => {
@@ -115,16 +117,17 @@ class Search extends React.PureComponent {
     const { dispatch } = this.props;
     console.log('Add gamer', gamer)
     dispatch(actions.addGamer(gamer));
-    this.setState({gamer: null})
+    this.setState({searchString: '', gamer: null})
   }
 
   render() {
-    const { count, loading, gamer } = this.state
+    const { searchString, count, loading, gamer } = this.state
     
     return(
       <Container>
         <Input
           type="text"
+          value={searchString}
           onChange={this.onUsernameChanged}
           placeholder="Enter Steam username"
           disabled={loading}
@@ -133,7 +136,7 @@ class Search extends React.PureComponent {
         {gamer ?
           (
             <Result onClick={this.addGamer}>
-              <Gamer gamer={gamer} />
+              <Gamer gamer={gamer} readonly={true} />
             </Result>
           ) : null
         }

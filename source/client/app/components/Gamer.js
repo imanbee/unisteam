@@ -7,6 +7,7 @@ const Container = styled.div`
   width: 100%;
   cursor: pointer;
   position: relative;
+  transition: all 2s ease-out;
 `
 
 const Avatar = styled.img`
@@ -22,36 +23,53 @@ const Avatar = styled.img`
 const UserName = styled.h4`
   font-weight: bold;
   display: flex;
+  margin-bottom: 3px;
+`
+
+const GamerInfo = styled.div`
+  display: flex;
+  flex-direction: column;
 `
 
 const GamesCount = styled.p`
-  font-weight: bold;
   display: flex;
   justify-self: end;
   font-size: 12px;
   right: 12px;
-  position: absolute;
   top: 9px;
-  transition: all 2s ease-out;
 `
 
 const RemoveButton = styled.button`
   width: 25px;
   height: 25px;
+  position: absolute;
+  right: 0px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
 `
 
 
 class Gamer extends React.Component {
 
+  onRemoveGamer = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.onRemove();
+  }
+
   render () {
-    const { gamer, margin } = this.props;
+    const { gamer, margin, readonly } = this.props;
 
     return (
       <Container style={{marginBottom: margin ? '10px' : '0'}}>
         <Avatar src={gamer.avatar} alt="Avatar"/>
-        <UserName>{gamer.realname || gamer.personaname}</UserName>
-        <GamesCount>{gamer.game_count || 0} games</GamesCount>
-        <RemoveButton>&#10005;</RemoveButton>
+        <GamerInfo>
+          <UserName>{gamer.realname || gamer.personaname}</UserName>
+          <GamesCount>{gamer.game_count || 0} games</GamesCount>
+        </GamerInfo>
+        {!readonly && <RemoveButton onClick={this.onRemoveGamer}>&#10005;</RemoveButton>}
       </Container>
     )
   }

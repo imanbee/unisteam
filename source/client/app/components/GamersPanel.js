@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Search from './Search';
 import Gamer from './Gamer';
+import * as actions from '../store/actions/'
 
 const Container = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ const Container = styled.div`
 `
 
 const GamersList = styled.div`
-  margin-top: 50px;
+  margin-top: 20px;
 `
 
 const Title = styled.h2`
@@ -23,6 +24,12 @@ const Title = styled.h2`
 `
 
 class GamersPanel extends React.Component {
+
+  onRemoveGamer = (gamer) => {
+    const { dispatch } = this.props;
+    console.log('On remove gamer', gamer)
+    dispatch(actions.removeGamer(gamer));
+  }
 
   render() {
     const { gamers } = this.props;
@@ -33,7 +40,7 @@ class GamersPanel extends React.Component {
         <GamersList>
           {gamers.map((gamer, index) => {
             return (
-              <Gamer gamer={gamer} key={index} margin={true} />
+              <Gamer gamer={gamer} key={index} margin={true} onRemove={() => { this.onRemoveGamer(gamer) }} />
             )
           })}
         </GamersList>
