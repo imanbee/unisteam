@@ -1,5 +1,24 @@
 import React from 'react'
+import axios from 'axios'
+import GamersPanel from '../GamersPanel'
+import GamesPanel from '../GamesPanel'
+import styled from 'styled-components';
 
-export const Home = () => (
-  <div><h1>Home Page</h1></div>
-)
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
+class Home extends React.PureComponent {
+
+  render() {
+    return(
+      <Container>
+        <GamersPanel />
+        <GamesPanel />
+      </Container>
+    )
+  }
+}
+
+export default Home;

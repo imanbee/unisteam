@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { renderToString } from 'react-dom/server'
 import StaticRouter from 'react-router-dom/StaticRouter'
 import { matchRoutes, renderRoutes } from 'react-router-config'
+import getUserGames from './SteamAPI.js';
 
 import routes from '../client/app/routes'
 import configureStore from '../client/app/store/configureStore'
@@ -11,11 +12,23 @@ import configureStore from '../client/app/store/configureStore'
 const store = configureStore()
 const router = express.Router()
 
+router.get('/api/steam/', (req, res) => {
+  let username = req.query.username;
+  if (username) {
+    getUserGames(username).then(response => {
+      res.send(JSON.stringify(response))
+    })
+  } else {
+    res.status(400)
+    res.send('Username is not defined')
+  }
+})
+
 router.get('*', (req, res) => {
   const branch = matchRoutes(routes, req.url)
 
   const promises = branch.map(({route}) => {
-    let fetchData = route.component.fetchData
+    let fetchData = route.component ? route.component.fetchData : null;
     return fetchData instanceof Function ? fetchData(store) : Promise.resolve(null)
   })
 
@@ -37,7 +50,7 @@ router.get('*', (req, res) => {
     res.render('index', {
       html,
       state: store.getState(),
-      title: 'React Redux HMR SSR Starter Kit',
+      title: 'UNISTEAM',
       production: process.env.NODE_ENV === 'production' })
   })
 })

@@ -1,5 +1,5 @@
 import AppRoot  from './containers/AppRoot'
-import { Home } from './components/Home/Home'
+import Home from './components/Home/Home'
 import About from './components/About/About'
 import { NotFound } from './components/NotFound'
 
