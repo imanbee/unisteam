@@ -62,12 +62,16 @@ class Gamer extends React.Component {
   render () {
     const { gamer, margin, readonly } = this.props;
 
+    let multiplayerGames = gamer.games && gamer.games.length > 0 ? gamer.games.filter(game => {
+      return game.is_multiplayer
+    }): [];
+
     return (
       <Container style={{marginBottom: margin ? '10px' : '0'}}>
-        <Avatar src={gamer.avatar} alt="Avatar"/>
+        <Avatar src={gamer.avatarfull} alt="Avatar"/>
         <GamerInfo>
           <UserName>{gamer.realname || gamer.personaname}</UserName>
-          <GamesCount>{gamer.game_count || 0} games</GamesCount>
+          <GamesCount>{multiplayerGames.length || 0} multiplayer games</GamesCount>
         </GamerInfo>
         {!readonly && <RemoveButton onClick={this.onRemoveGamer}>&#10005;</RemoveButton>}
       </Container>

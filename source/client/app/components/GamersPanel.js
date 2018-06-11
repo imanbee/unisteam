@@ -16,6 +16,7 @@ const Container = styled.div`
 
 const GamersList = styled.div`
   margin-top: 20px;
+  padding: 0 4px;
 `
 
 const Title = styled.h2`

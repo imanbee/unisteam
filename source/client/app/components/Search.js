@@ -19,15 +19,15 @@ const Input = styled.input`
 `
 
 const Result = styled.div`
-  width: calc(100% - 13px);
+  width: calc(100% - 11px);
   position: absolute;
   top: 35px;
-  border: 1px solid #c8c8c8;
   border-radius: 0px 0px 4px 4px;
   padding: 4px;
   display: flex;
   background-color: #a3a3a3;
-  border-top: none;
+  z-index: 10;
+  box-shadow: 0px 2px 8px -2px;
 `
 
 const Loader = styled.div`
