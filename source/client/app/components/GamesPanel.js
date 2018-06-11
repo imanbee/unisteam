@@ -43,9 +43,12 @@ const GameImage = styled.img`
 `
 
 const GameName = styled.h3`
-  width: 100%;
+  width: 93%;
   font-size: 14px;
   margin: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 const GamePlaytime = styled.span`
@@ -71,7 +74,7 @@ class GamesPanel extends React.Component {
     if (gamers && gamers.length > 0) {
       let games = gamers[0].games;
       games.forEach(game => {
-        if (game.is_mmo) {
+        if (game.is_multiplayer) {
           let gameIdPresents = true;
           gamers.forEach(gamer => {
             let gamesIds = gamer.games.map(game => game.appid);
@@ -105,7 +108,7 @@ class GamesPanel extends React.Component {
               <Game>
                 <GameImage src={gameImageUrl} />
                 <GamePlaytime>{Math.round(game.playtime_forever/60)} h</GamePlaytime>
-                <GameName>{game.name}</GameName>
+                <GameName title={game.name}>{game.name}</GameName>
               </Game>
             );
           })}
