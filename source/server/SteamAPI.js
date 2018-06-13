@@ -50,7 +50,7 @@ export default function getUserGames(username) {
         })
       })
     } else if (status === 42) {
-      return {error: true, message: 'Username not found'}
+      throw 404;
     }
   });
 }

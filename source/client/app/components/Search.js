@@ -30,6 +30,11 @@ const Result = styled.div`
   box-shadow: 0px 2px 8px -2px;
 `
 
+const SearchError = styled.p`
+  font-size: 14px;
+  font-weight: normal;
+  margin: 10px;
+`
 const Loader = styled.div`
   font-size: 10px;
   margin: 10px;
@@ -80,6 +85,14 @@ const Loader = styled.div`
   }
 `
 
+const ResetSearch = styled.span`
+  font-size: 10px;
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+`
+
 class Search extends React.PureComponent {
 
   state = {
@@ -101,7 +114,11 @@ class Search extends React.PureComponent {
         let gamer = data;
         this.setState({gamer, loading: false})
       }).catch((error) => {
-        this.setState({error: error, loading: false})
+        if (error.response) {
+          if (error.response.status === 404) {
+            this.setState({error: 404, loading: false})
+          }
+        }
       })
     }
   }, 500)
@@ -120,8 +137,12 @@ class Search extends React.PureComponent {
     this.setState({searchString: '', gamer: null})
   }
 
+  resetSearch = () => {
+    this.setState({searchString: '', error: null, gamer: null})
+  }
+
   render() {
-    const { searchString, count, loading, gamer } = this.state
+    const { searchString, count, loading, gamer, error} = this.state
     
     return(
       <Container>
@@ -132,14 +153,20 @@ class Search extends React.PureComponent {
           placeholder="Enter Steam username"
           disabled={loading}
         />
+        {searchString !== '' && <ResetSearch onClick={this.resetSearch}>&#10005;</ResetSearch>}
         {loading ? <Loader /> : null}
-        {gamer ?
+        {!error && gamer ?
           (
             <Result onClick={this.addGamer}>
               <Gamer gamer={gamer} readonly={true} />
             </Result>
           ) : null
         }
+        {error && error === 404 ? (
+          <Result>
+            <SearchError>Not found</SearchError>
+          </Result>
+        ) : null}
       </Container>
     )
   }

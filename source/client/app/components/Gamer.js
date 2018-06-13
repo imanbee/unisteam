@@ -4,10 +4,16 @@ import styled from 'styled-components';
 const Container = styled.div`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: calc(100%-10px);
   cursor: pointer;
   position: relative;
-  transition: all 2s ease-out;
+  transition: all 0.2s ease-out;
+  padding: 5px;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: #939393;
+  }
 `
 
 const Avatar = styled.img`
@@ -43,7 +49,7 @@ const RemoveButton = styled.button`
   width: 25px;
   height: 25px;
   position: absolute;
-  right: 0px;
+  right: 5px;
   background: transparent;
   border: none;
   cursor: pointer;

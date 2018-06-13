@@ -17,6 +17,12 @@ router.get('/api/steam/', (req, res) => {
   if (username) {
     getUserGames(username).then(response => {
       res.send(JSON.stringify(response))
+    }).catch(err => {
+      console.log('err is', err)
+      if (err === 404) {
+        res.status(404);
+        res.send({message: 'Not found'})
+      }
     })
   } else {
     res.status(400)
