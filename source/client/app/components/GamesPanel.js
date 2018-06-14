@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import intersection from 'lodash.intersection';
 import moment from 'moment';
-import Game from './Game';
+import Game from './Game.js';
 
 const Container = styled.div`
   display: flex;

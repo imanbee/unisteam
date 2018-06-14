@@ -52,9 +52,6 @@ const config = {
         dead_code: true
       }
     }),
-    new CopyWebpackPlugin([
-      {from: CSVSource, to: CSVDest}
-    ]),
     extractCss,
   ],
 }
