@@ -1,11 +1,11 @@
 const axios = require('axios');
 const csvtojson = require('csvtojson');
 const path = require('path');
+const pathToCSV = path.resolve(__dirname, './multiplayer_games.csv')
 
 const API_KEY = '8738270D3B5D8959A13E1BC255D5702A';
 
 let multiplayerGames = [];
-let pathToCSV = path.resolve(__dirname, './resources/multiplayer_games.csv');
 csvtojson({
   delimiter: ';'
 }).fromFile(pathToCSV).then((jsonObj)=>{

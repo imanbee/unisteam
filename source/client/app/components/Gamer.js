@@ -10,9 +10,10 @@ const Container = styled.div`
   transition: all 0.2s ease-out;
   padding: 5px;
   border-radius: 4px;
+  opacity: ${props => props.disabled ? '0.5' : '1'}
 
   &:hover {
-    background-color: #939393;
+    background-color: ${props => props.readonly ? 'transparent' : '#939393'};
   }
 `
 
@@ -66,17 +67,17 @@ class Gamer extends React.Component {
   }
 
   render () {
-    const { gamer, margin, readonly } = this.props;
+    const { gamer, margin, readonly, disabled } = this.props;
 
     let multiplayerGames = gamer.games && gamer.games.length > 0 ? gamer.games.filter(game => {
       return game.is_multiplayer
     }): [];
 
     return (
-      <Container style={{marginBottom: margin ? '10px' : '0'}}>
+      <Container readonly={readonly || false} disabled={disabled || false} style={{marginBottom: margin ? '10px' : '0'}}>
         <Avatar src={gamer.avatarfull} alt="Avatar"/>
         <GamerInfo>
-          <UserName>{gamer.realname || gamer.personaname}</UserName>
+          <UserName>{gamer.realname.trim() || gamer.personaname}</UserName>
           <GamesCount>{multiplayerGames.length || 0} multiplayer games</GamesCount>
         </GamerInfo>
         {!readonly && <RemoveButton onClick={this.onRemoveGamer}>&#10005;</RemoveButton>}

@@ -3,6 +3,9 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const baseConfig = require('./webpack.config.base')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CSVSource = path.resolve(__dirname, '../source/server/multiplayer_games.csv');
+const CSVDest = path.resolve(__dirname, '../dist/server/multiplayer_games.csv');
 
 const PRODUCTION = 'production'
 
@@ -43,12 +46,15 @@ const config = {
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
-        drop_console: true,
+        //drop_console: true,
         unsafe: true,
         drop_debugger: true,
         dead_code: true
       }
     }),
+    new CopyWebpackPlugin([
+      {from: CSVSource, to: CSVDest}
+    ]),
     extractCss,
   ],
 }

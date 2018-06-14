@@ -28,7 +28,6 @@ class GamersPanel extends React.Component {
 
   onRemoveGamer = (gamer) => {
     const { dispatch } = this.props;
-    console.log('On remove gamer', gamer)
     dispatch(actions.removeGamer(gamer));
   }
 
@@ -51,7 +50,6 @@ class GamersPanel extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('State', state);
   return {
     gamers: state.gamers
   };

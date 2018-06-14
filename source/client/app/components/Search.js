@@ -132,7 +132,6 @@ class Search extends React.PureComponent {
   addGamer = () => {
     const { gamer } = this.state;
     const { dispatch } = this.props;
-    console.log('Add gamer', gamer)
     dispatch(actions.addGamer(gamer));
     this.setState({searchString: '', gamer: null})
   }
@@ -143,7 +142,13 @@ class Search extends React.PureComponent {
 
   render() {
     const { searchString, count, loading, gamer, error} = this.state
-    
+    const { gamers } = this.props;
+    let multiplayerGames = gamer && gamer.games && gamer.games.length > 0 ? gamer.games.filter(game => {
+      return game.is_multiplayer
+    }): [];
+    let isExists = gamer && gamers && gamers.length > 0 && gamers.find(g => {
+      return g.steamid === gamer.steamid;
+    });
     return(
       <Container>
         <Input
@@ -157,8 +162,8 @@ class Search extends React.PureComponent {
         {loading ? <Loader /> : null}
         {!error && gamer ?
           (
-            <Result onClick={this.addGamer}>
-              <Gamer gamer={gamer} readonly={true} />
+            <Result onClick={multiplayerGames.length > 0 && !isExists ? this.addGamer : () => {return false}}>
+              <Gamer gamer={gamer} readonly={true} disabled={multiplayerGames.length === 0 || isExists}/>
             </Result>
           ) : null
         }
@@ -172,5 +177,10 @@ class Search extends React.PureComponent {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    gamers: state.gamers
+  }
+}
 
-export default connect()(Search);
+export default connect(mapStateToProps)(Search);
